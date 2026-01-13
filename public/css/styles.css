@@ -1,6 +1,232 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-1: #ffffff;
+    --color-2: rgba(224, 165, 56, 0.984);
+    --color-3: rgb(234, 234, 234);
+    --color-4: rgb(52, 42, 42);
+
+    --text-color: rgb(31, 28, 28);
+    --text-color-hover: rgb(255, 230, 230);
+    --text-color-2: rgb(48, 62, 172);
+
+    --general-padding: 20px;
+    --sec-padding: 10px;
+    --general-margin: 10px;
+    --border-r-lg: 12px;
+    --border-r-md: 5px;
+    --general-gap: 20px;
+    
+    --border-color: rgba(139, 139, 139, 0.3);
+    --transition: 0.3s ease;
+}
+
+body, html {
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    font-family: "Red Hat Display", sans-serif;
+}
+
+body {
+    font-family: "Noto Sans", sans-serif;
+}
+
+.main-container {
+    margin: 0 auto;
+    padding: var(--sec-padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--general-gap);
+
+}
+
+#top-header {
+    background-color: var(--color-1);
+    padding: var(--sec-padding) var(--general-padding);
+    display: flex;
+    justify-content: space-between;
+}
+
+.siteName a, #tools a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+#tools a{
+    transition: all 0.3s ease;
+}
+
+#tools a:hover {
+    background-color: var(--color-2);
+    color: var(--text-color-hover);
+    transform: translateY(-1px);
+    border-radius: 20px;
+    padding: 8px 16px;
+}
+
+.siteName {
+  font-size: large;
+  font-weight: bolder;
+}
+
+.navigation ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  align-content: center;
+  background-color: var(--color-4);
+  color : var(--color-1);
+}
+
+.navigation ul li:hover {
+    cursor: pointer;
+    color: var(--color-2);
+}
+
+.hero-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto;
+}
+
+#hero-image {
+    width: 100%;
+    height: auto;
+    grid-column: 1/3;
+    grid-row: 1/3;
+}
+
+#content {
+    grid-row: 2/3;
+    grid-column: 1;
+    z-index: 1;
+    padding: var(--sec-padding);
+    color: var(--text-color-2);
+    opacity: 0.9;
+    background-color: var(--color-3);
+    border-radius: var(--border-r-md);
+}
+
+#content ul {
+    list-style: none;
+}
+
+#content h2 {
+    font-size: 1.3em;
+}
+
+#content button {
+    border: none;
+    margin-top: 5px;
+    transition: filter 0.3s ease;
+}
+
+#content button:hover {
+    filter: brightness(1.3) contrast(1.1);
+    cursor: pointer;
+}
+
+.reviews ul {
+    margin: 2px;
+    list-style: none;
+    line-height: 1.5;
+}
+
+.upgrades {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--general-gap);
+    margin-top: var(--general-margin);
+}
+
+.upgrades > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sec-padding);
+    border: 1px solid #ddd;
+    text-align: center;
+    height: 100%; 
+}
+
+.upgrades img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.upgrades a {
+    font-weight: bold;
+    font-family: sans-serif;
+    transition: all 0.3s ease;
+}
+
+.upgrades a:hover {
+    color: var(--color-2);
+    text-decoration: none; 
+    transform: translateY(-2px); 
+}
+
+footer {
+    margin-left: var(--general-margin);
+    margin-top: var(--general-margin);
+}
+
+@media screen and (min-width: 700px) {
+
+    #wrapper {
+        background-color: var(--color-1);
+        border: 10px solid rgb(79, 79, 220);
+        border-radius: var(--border-r-lg);
+    
+    }
+    body {
+        padding: 30px 100px 30px 100px;
+        background-image: url('/images/site/small_check.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-color: #464646;
+    }
+
+    .main-container {
+        display: grid;
+        grid-template-areas: 
+            "hero     hero"
+            "upgrades reviews";
+        
+    }
+
+    .welcome-to {
+        grid-area: hero;
+    }
+
+    .upgrades-cards {
+        grid-area: upgrades;
+    }
+
+    .reviews {
+        grid-area: reviews;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .reviews ul, .reviews h3 {
+        align-self: center;
+    }
+
+    footer {
+        margin: 20px 0 20px var(--general-margin);
+    }
 }
