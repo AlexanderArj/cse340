@@ -1,7 +1,13 @@
-<% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
 
-<%- message %>
+<div class="crash">
+  <img src="../images/site/crash.webp" alt="Error found" loading="lazy" width="1200" height="auto" id="crash-image">
+
+  <% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
+
+  <%- message %>
+</div>
+
