@@ -1,18 +1,15 @@
-<% if (title) { %>
-    <h1><%= title %></h1>
-<% } else {
-    res.redirect('/')
-} %>
+<h1><%= title %></h1>
 
-<%# messages() %>
+<%- messages() %>
+
 <div class="auth-container">
-    <main class="auth-card">
-        <h1 class="formTitle">Sign IN</h1>
+    <div class="auth-card">
+        <h2 class="formTitle">Sign In</h2>
         <form id="loginForm" class="auth-form">
             <div class="input-group">
                 <label for="login-identifier">Your email</label>
                 <input 
-                    type="text" 
+                    type="email" 
                     id="login-identifier" 
                     name="account_email"
                     required 
@@ -34,7 +31,7 @@
             <button type="submit" class="auth-btn">Enter</button>
         </form>
         <p class="switch-link">
-            No account? <a href="register.html">Get one here</a>
+            No account? <a href="/account/register">Get one here</a>
         </p>
-    </main>
+    </div>
 </div>

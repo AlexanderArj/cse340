@@ -1,14 +1,34 @@
 const utilities = require("../utilities/")
 
-/* ****************************************
-*  Deliver login view
-* *************************************** */
+// Login view
+
+
 async function buildLogin(req, res, next) {
-  let nav = await utilities.getNav()
-  res.render("account/login", {
-    title: "Login",
-    nav,
-  })
+  try {
+    const nav = await utilities.getNav()
+    res.render("account/login", {
+      title: "Login",
+      nav,
+      errors: null
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
-module.exports = { buildLogin }
+// Register view
+
+async function buildRegister(req, res, next) {
+  try {
+    const nav = await utilities.getNav()
+    res.render("account/register", {
+      title: "Register",
+      nav,
+      errors: null
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = { buildLogin, buildRegister }
