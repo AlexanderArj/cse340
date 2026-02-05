@@ -50,6 +50,111 @@ body {
     font-family: "Noto Sans", sans-serif;
 }
 
+/* Estilos para el formulario de login */
+
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--color-3); 
+    padding: var(--general-padding);
+    font-family: sans-serif;
+}
+
+.auth-card {
+    background-color: var(--color-1); 
+    padding: 40px;
+    border-radius: var(--border-r-lg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.formTitle {
+    color: var(--color-4);
+    margin-bottom: var(--general-gap);
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.input-group input {
+    width: 100%;
+    padding: var(--sec-padding);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-r-md);
+    background-color: var(--color-1);
+    color: var(--text-color);
+    box-sizing: border-box; 
+    transition: border-color var(--transition);
+}
+
+.input-group input:focus {
+    border-color: var(--color-2); 
+    outline: none;
+}
+
+.auth-btn {
+    padding: 12px;
+    margin-top: 10px;
+    background-color: var(--color-4); 
+    color: var(--color-1);
+    border: none;
+    border-radius: var(--border-r-md);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color var(--transition), transform 0.1s;
+}
+
+.auth-btn:hover {
+    background-color: var(--color-2); 
+    color: var(--text-color);
+}
+
+.auth-btn:active {
+    transform: scale(0.98);
+}
+
+.switch-link {
+    margin-top: var(--general-gap);
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.switch-link a {
+    color: var(--text-color-2);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color var(--transition);
+}
+
+.switch-link a:hover {
+    text-decoration: underline;
+    color: var(--color-2);
+}
+
+/* ********FIN de estilos para el formulario */
+
 .main-container {
     margin: 0 auto;
     padding: var(--sec-padding);

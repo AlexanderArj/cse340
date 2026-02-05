@@ -1,0 +1,40 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%# messages() %>
+<div class="auth-container">
+    <main class="auth-card">
+        <h1 class="formTitle">Sign IN</h1>
+        <form id="loginForm" class="auth-form">
+            <div class="input-group">
+                <label for="login-identifier">Your email</label>
+                <input 
+                    type="text" 
+                    id="login-identifier" 
+                    name="account_email"
+                    required 
+                    placeholder="sample@domain.com"
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="login-password">Password</label>
+                <input 
+                    type="password" 
+                    id="login-password" 
+                    name="account_password"
+                    required 
+                    placeholder="Your secret password"
+                >
+            </div>
+
+            <button type="submit" class="auth-btn">Enter</button>
+        </form>
+        <p class="switch-link">
+            No account? <a href="register.html">Get one here</a>
+        </p>
+    </main>
+</div>
