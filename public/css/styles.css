@@ -174,6 +174,53 @@ input:required:valid {
 
 /* FIN DE ESTILOS PARA EL FORMULARIO DE REGISTRO Y LOGIN */
 
+
+/* Estilos para la vista de inventory management */
+
+.management {
+    background-color: var(--color-4);
+    min-height: 75vh;
+    padding: var(--general-padding);
+}
+
+.management ul {
+    list-style: none;
+}
+
+.management ul li {
+    margin-top: 20px;
+    border-bottom: 1px solid var(--color-1);
+}
+
+.management ul li a {
+    color: var(--color-1);
+    text-decoration: none;
+    font-size: large;
+}
+
+.management ul li a:hover {
+    color: var(--color-2);
+}
+
+/* Adicional para formularios. Texto span */
+
+.input-group span {
+    font-style: italic;
+    font-size: small;
+}
+
+/* errors */
+
+.error-list, .notice {
+    list-style: none;
+    padding: var(--sec-padding);
+}
+
+.error-list li, .notice li {
+    color: rgba(229, 50, 50, 0.986);
+    font-style: italic;
+}
+
 .main-container {
     margin: 0 auto;
     padding: var(--sec-padding);

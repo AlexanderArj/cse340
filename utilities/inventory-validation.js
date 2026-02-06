@@ -28,4 +28,63 @@ validate.checkIdData = async (req, res, next) => {
   next()
 }
 
+validate.inventoryRules = () => {
+  return [
+    body("classification_id")
+      .isNumeric()
+      .notEmpty()
+      .withMessage("Please select a classification."),
+
+    body("inv_make")
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage("Make must be at least 3 characters."),
+
+    body("inv_model")
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage("Model must be at least 3 characters."),
+
+    body("inv_description")
+      .notEmpty()
+      .withMessage("Description can not be empty."),
+
+    body("inv_year")
+      .isNumeric()
+      .isLength({ min: 4, max: 4 })
+      .withMessage("Year must be a 4-digit number."),
+
+    body("inv_price")
+      .isNumeric()
+      .withMessage("Price must be a number."),
+
+    body("inv_miles")
+      .isNumeric()
+      .withMessage("Miles must be a number."),
+      
+    body("inv_color")
+      .trim()
+      .notEmpty()
+      .withMessage("Color is required.")
+  ]
+}
+
+validate.checkInventoryData = async (req, res, next) => {
+  let errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let classificationSelect = await utilities.buildClassificationList(req.body.classification_id)
+    
+    res.render("inventory/add-inventory", {
+      errors,
+      title: "Add New Vehicle",
+      nav,
+      classificationSelect,
+      ...req.body 
+    })
+    return
+  }
+  next()
+}
+
 module.exports = validate
