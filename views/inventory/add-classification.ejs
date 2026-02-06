@@ -11,13 +11,6 @@
 <div class="auth-container">
     <div class="auth-card">
         <h2 class="formTitle"><%= title %></h2>
-
-        <% if (messages) { %>
-            <div class="message-container">
-                <%= messages %>
-            </div>
-        <% } %>
-
         <form id="addClassForm" class="auth-form" action="/inv/add-classification" method="post">
             <div class="input-group">
                 <label for="classificationName">Classification Name</label>

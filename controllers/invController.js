@@ -64,10 +64,13 @@ invCont.getError = async function (req, res, next) {
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
+  // Captura el mensaje flash aquí
+  const messages = req.flash('notice') 
+  
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
-    messages: null,
+    messages, // Pasamos el texto del mensaje, no la función
   })
 }
 
@@ -81,6 +84,30 @@ invCont.buildAddClassification = async function (req, res, next) {
     nav,
     messages: null,
   })
+}
+
+/* ***************************
+ * Process Add Classification
+ * ************************** */
+
+invCont.addClassification = async function (req, res) {
+  const { classification_name } = req.body
+  const result = await invModel.insertClassification(classification_name)
+
+  if (result) {
+    // 1. Mensaje de éxito
+    req.flash("notice", `The ${classification_name} classification was successfully added.`)
+    // 2. REDIRECT a la ruta de gestión (esto limpia la URL)
+    res.redirect("/inv/") 
+  } else {
+    // Si falla, volvemos a mostrar el formulario
+    req.flash("notice", "Sorry, the insertion failed.")
+    res.status(501).render("inventory/add-classification", {
+      title: "Add New Classification",
+      nav: await utilities.getNav(),
+      errors: null,
+    })
+  }
 }
 
 module.exports = invCont
