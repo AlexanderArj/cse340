@@ -164,22 +164,12 @@ body {
     opacity: 0.8;
 }
 
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
+input:required:invalid, input:focus:invalid {
+    border: 1px solid var(--color-2);
 }
 
-.password-wrapper input {
-    padding-right: 65px; 
-}
-
-.password-wrapper input:focus:invalid {
-    border-color: #e74c3c;
-}
-
-.password-wrapper input:focus:valid {
-    border-color: #2ecc71;
+input:required:valid {
+    border: 2px solid rgb(45, 199, 45);
 }
 
 /* FIN DE ESTILOS PARA EL FORMULARIO DE REGISTRO Y LOGIN */
