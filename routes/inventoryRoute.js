@@ -18,5 +18,8 @@ router.get("/detail/:invId", utilities.handleErrors(invController.buildDetail));
 // Route to trigger an intentional error
 router.get("/trigger-error", utilities.handleErrors(invController.triggerError));
 
+// Route to deliver the add-classification view
+router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+
 module.exports = router;
 
