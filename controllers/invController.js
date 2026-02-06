@@ -59,4 +59,16 @@ invCont.getError = async function (req, res, next) {
   }
 }
 
+/* ***************************
+ * Build management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/management", {
+    title: "Vehicle Management",
+    nav,
+    messages: null,
+  })
+}
+
 module.exports = invCont
