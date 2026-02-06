@@ -2,18 +2,25 @@
 
 <%- messages() %>
 
+<% if (typeof errors !== "undefined" && errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
 <div class="auth-container">
     <div class="auth-card">
         <h2 class="formTitle">Sign In</h2>
-        <form id="loginForm" class="auth-form">
+        <form id="loginForm" class="auth-form" action="/account/login" method="post">
             <div class="input-group">
                 <label for="login-identifier">Your email</label>
                 <input 
                     type="email" 
                     id="login-identifier" 
                     name="account_email"
-                    required 
-                    placeholder="sample@domain.com"
+                    required value="<%= locals.account_email %>"
                 >
             </div>
 
