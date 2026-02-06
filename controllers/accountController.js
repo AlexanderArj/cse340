@@ -1,5 +1,7 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
+const bcrypt = require("bcryptjs")
+
 
 // Login view
 
@@ -38,11 +40,26 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
+  // Hash the password before storing
+  let hashedPassword
+  try {
+    // regular password and cost (salt is generated automatically)
+    // En lugar de hashSync:
+      hashedPassword = await bcrypt.hash(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error processing the registration.')
+    res.status(500).render("account/register", {
+      title: "Registration",
+      nav,
+      errors: null,
+    })
+  }
+
   const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_password
+    hashedPassword
   )
 
   if (regResult) {
@@ -66,14 +83,15 @@ async function registerAccount(req, res) {
 /* ****************************************
  *  Process Login
  * *************************************** */
-async function accountLogin(req, res) {
+
+async function accountLogin(req, res, next) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
 
   const accountData = await accountModel.getAccountByEmail(account_email)
 
-  if (!accountData || typeof accountData === "string") {
-    req.flash("notice", "Invalid email or password.")
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.")
     return res.status(400).render("account/login", {
       title: "Login",
       nav,
@@ -82,19 +100,27 @@ async function accountLogin(req, res) {
     })
   }
 
-  if (account_password !== accountData.account_password) {
-    req.flash("notice", "Invalid email or password.")
-    return res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-      account_email,
-    })
-  }
+  try {
+    const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
 
-  req.flash("notice", "Login successful.")
-  res.redirect("/")
+    if (passwordMatch) {
+      delete accountData.account_password
+      
+      req.flash("notice", "Login successful.")
+      res.redirect("/") 
+    } else {
+
+      req.flash("notice", "Please check your credentials and try again.")
+      res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      })
+    }
+  } catch (error) {
+    next(error)
 }
-
+}
 
 module.exports = { buildLogin, buildRegister, registerAccount, accountLogin }
