@@ -1,7 +1,7 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
-
+const jwt = require("jsonwebtoken")
 
 // Login view
 
@@ -71,35 +71,39 @@ async function registerAccount(req, res) {
   }
 }
 
-// Login process
+/* ****************************************
+ *  Process login request
+ * ************************************ */
 
-async function accountLogin(req, res, next) {
+async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-
   const accountData = await accountModel.getAccountByEmail(account_email)
-
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.")
-    return res.status(400).render("account/login", {
+    res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
       account_email,
     })
+    return
   }
-
   try {
-    const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
-
-    if (passwordMatch) {
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password
-      
-      req.flash("notice", "Login successful.")
-      res.redirect("/") 
-    } else {
-
-      req.flash("notice", "Please check your credentials and try again.")
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      if(process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+      } else {
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+      }
+      return res.redirect("/account/")
+      // envia a la ruta por defecto de nombreDePagina/account/, esto lo toma al accountRoute para
+      // llamar al constructor de la visual de la cuenta
+    }
+    else {
+      req.flash("message notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
         nav,
@@ -108,8 +112,43 @@ async function accountLogin(req, res, next) {
       })
     }
   } catch (error) {
-    next(error)
-}
+    throw new Error('Access Forbidden')
+  }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin }
+
+// Login view
+
+async function buildAccountView(req, res, next) {
+  try {
+    const nav = await utilities.getNav()
+    res.render("account/account", {
+      // El contralaodr de ruta llama a esta funcion
+      // y esta función se encarga de contruir la visual usando account/account
+      // este ultimo es el archivo account.ejs dentro de la carpeta account
+      
+      title: "My Account",
+      nav,
+      errors: null
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// async function buildAccountView(req, res, next) {
+//   try {
+//     const nav = await utilities.getNav()
+//     // extraer info de res.locals al tener middleware de validación
+//     res.render("account/account", {
+//       title: "My Account",
+//       nav,
+//       errors: null,
+//       // accountData: res.locals.accountData // con el uso de middleware
+//     })
+//   } catch (error) {
+//     next(error)
+//   }
+// }
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountView }

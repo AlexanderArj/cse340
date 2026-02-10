@@ -26,5 +26,20 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
+// Add the new default route for accounts to the accountRoute file.
+
+router.get("/", utilities.handleErrors(accountController.buildAccountView));
+
+// aca la ruta es "/" porque el archivo principal de rutas ya incluye la palabra account: 
+// (app.use("/account", accountRoute) en el server) y al escribir la ruta asi, estamos respondiendo a la ruta /account/
+//       return res.redirect("/account/"): en el controlador
+
+// Como toda solicitud que empieze con nombreDePagina/acccount es manejada con el accountRoute (ver server.js), entonces cuando el usuario
+// se loguea correctamente se redirecciona a nombreDePagina/account/  el router toma este ultimo slash y llama a buildAccountView
+// que se encarga finalmente de mandar al usuario a la visual de cuenta, tomando la visual desde account/account.ejs: 
+// es decir que las urls esta marcadas por las rutas aca definidas. Url de la visual de la cuenta una vez el usuario se ha logueado:
+// sitioWeb/account/   
+
+
 module.exports = router;
 
