@@ -45,5 +45,12 @@ router.post(
 
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
+// localhost:5500/inv/edit/#
+
+// Route to get the editing view
+
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView))
+
+
 module.exports = router;
 
