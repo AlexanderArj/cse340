@@ -51,6 +51,13 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 
 router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView))
 
+// Process the update item form
+
+router.post(
+  "/update/",
+  regValidate.inventoryRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory))
 
 module.exports = router;
 
