@@ -28,7 +28,7 @@ router.post(
 
 // Add the new default route for accounts to the accountRoute file.
 
-router.get("/", utilities.handleErrors(accountController.buildAccountView));
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountView));
 
 // aca la ruta es "/" porque el archivo principal de rutas ya incluye la palabra account: 
 // (app.use("/account", accountRoute) en el server) y al escribir la ruta asi, estamos respondiendo a la ruta /account/
