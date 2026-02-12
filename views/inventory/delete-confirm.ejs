@@ -1,0 +1,44 @@
+<h1><%= title %></h1>
+
+<% if (errors) { %>
+    <ul class="error-list">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="formTitle"><%= title %></h2>
+        <p class="form-instruction">Deletion is permanent</p>
+
+        <form class="auth-form" id="deleteForm" action="/inv/delete-confirmation" method="post">
+
+            <div class="input-group">
+                <label for="inv_make">Make</label>
+                <input type="text" name="inv_make" id="inv_make" readonly value="<%= locals.inv_make %>">
+            </div>
+
+            <div class="input-group">
+                <label for="inv_model">Model</label>
+                <input type="text" name="inv_model" id="inv_model" readonly value="<%= locals.inv_model %>">
+            </div>
+
+            <div class="input-group">
+                <label for="inv_price">Price</label>
+                <input type="number" name="inv_price" id="inv_price" readonly value="<%= locals.inv_price %>">
+            </div>
+
+            <div class="input-group">
+                <label for="inv_year">Year</label>
+                <input type="number" name="inv_year" id="inv_year" readonly value="<%= locals.inv_year %>">
+            </div>
+
+            <button type="submit" class="auth-btn">Delete Vehicle</button>
+
+            <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"<% } %>>
+            <!-- This allows us to submit the primary key for the item without it being obvious to the client looking at the form. -->
+        </form>
+    </div>  
+</div>
