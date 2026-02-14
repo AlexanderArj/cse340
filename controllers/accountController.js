@@ -239,7 +239,7 @@ async function updatePassword(req, res) {
     res.redirect("/account/")
   } else {
     req.flash("notice", "Sorry, the password update failed.")
-    res.status(501).render("account/edit-account", {
+    res.status(501).render("account/editAccount", {
       title: "Edit Account",
       nav,
       errors: null,

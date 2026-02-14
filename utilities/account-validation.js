@@ -116,6 +116,7 @@ validate.checkLoginData = async (req, res, next) => {
 /* **********************************
  * Account Update Validation Rules
  * ********************************* */
+
 validate.updateAccountRules = () => {
   return [
     body("account_firstname")
@@ -140,7 +141,6 @@ validate.updateAccountRules = () => {
       .custom(async (account_email, { req }) => {
         const account_id = req.body.account_id
         const account = await accountModel.getAccountById(account_id)
-        // Solo verificamos si el email existe si es DIFERENTE al actual
         if (account_email !== account.account_email) {
           const emailExists = await accountModel.checkExistingEmail(account_email)
           if (emailExists) {
@@ -181,8 +181,7 @@ validate.checkUpdateData = async (req, res, next) => {
   
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    // Re-renderizamos la vista de edición enviando de nuevo los datos para no perderlos
-    res.render("account/edit-account", {
+    res.render("account/editAccount", {
       errors,
       title: "Edit Account",
       nav,
