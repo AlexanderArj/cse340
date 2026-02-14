@@ -38,8 +38,30 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.b
 // se loguea correctamente se redirecciona a nombreDePagina/account/  el router toma este ultimo slash y llama a buildAccountView
 // que se encarga finalmente de mandar al usuario a la visual de cuenta, tomando la visual desde account/account.ejs: 
 // es decir que las urls esta marcadas por las rutas aca definidas. Url de la visual de la cuenta una vez el usuario se ha logueado:
-// sitioWeb/account/   
+// sitioWeb/account/
 
+
+// **************
+// Route to get edit account view
+// ************
+
+router.get("/edit/:account_id", utilities.handleErrors(accountController.buildEditAccountView))
+
+// Ruta para actualizar datos personales
+router.post(
+  "/update",
+  regValidate.updateAccountRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+// Ruta para actualizar contraseña
+router.post(
+  "/password",
+  regValidate.passwordRules(),
+  regValidate.checkUpdateData, // Podemos reutilizar este o crear uno específico
+  utilities.handleErrors(accountController.updatePassword)
+)
 
 module.exports = router;
 

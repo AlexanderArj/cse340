@@ -1,0 +1,67 @@
+<h1><%= title %></h1>
+
+<%- messages() %>
+
+<% if (locals.errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="formTitle">Account Update</h2>
+        
+        <form class="auth-form" action="/account/update" method="post">
+            
+            <div class="input-group">
+                <label for="account_firstname">First Name</label>
+                <input type="text" name="account_firstname" id="account_firstname" required 
+                value="<%= locals.accountData.account_firstname %>">
+            </div>
+
+            <div class="input-group">
+                <label for="account_lastname">Last Name</label>
+                <input type="text" id="account_lastname" name="account_lastname" required 
+                value="<%= locals.accountData.account_lastname %>">
+            </div>
+
+            <div class="input-group">
+                <label for="account_email">Email Address</label>
+                <input type="email" id="account_email" name="account_email" required 
+                value="<%= locals.accountData.account_email %>">
+            </div>
+
+            <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+            
+            <button type="submit" class="auth-btn">Update Info</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="auth-card">
+        <h2 class="formTitle">Change Password</h2>
+
+        <form class="auth-form" action="/account/password" method="post">
+
+            <div class="input-group">
+
+                <label for="account_password">New Password:</label> 
+                <span class="password-hint">Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
+
+                <input type="password" name="account_password" id="account_password" required 
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+
+            </div>
+
+            <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+            
+            <button type="submit" class="auth-btn">Change Password</button>
+
+        </form>
+
+    </div>
+</div>
