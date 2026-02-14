@@ -375,6 +375,16 @@ input:required:valid {
     padding: 8px 16px;
 }
 
+#tools .auth-btn {
+    background: none;
+    border: none;
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+}
+
 .siteName {
   font-size: large;
   font-weight: bolder;

@@ -100,9 +100,7 @@ async function accountLogin(req, res) {
       } else {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
-      return res.redirect("/account/")
-      // envia a la ruta por defecto de nombreDePagina/account/, esto lo toma al accountRoute para
-      // llamar al constructor de la visual de la cuenta
+      return res.redirect("/")
     }
     else {
       req.flash("message notice", "Please check your credentials and try again.")
@@ -247,6 +245,18 @@ async function updatePassword(req, res) {
   }
 }
 
+
+/* ****************************************
+ * Process logout request
+ * ************************************ */
+
+async function accountLogout(req, res) {
+  res.clearCookie("jwt")
+  req.flash("notice", "You have been logged out.")
+  return res.redirect("/")
+}
+
+
 module.exports = { 
   buildLogin, 
   buildRegister, 
@@ -255,5 +265,6 @@ module.exports = {
   buildAccountView,
   buildEditAccountView,
   updateAccount, 
-  updatePassword 
+  updatePassword,
+  accountLogout
 }
