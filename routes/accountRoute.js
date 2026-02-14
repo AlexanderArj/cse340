@@ -59,7 +59,7 @@ router.post(
 router.post(
   "/password",
   regValidate.passwordRules(),
-  regValidate.checkUpdateData, // Podemos reutilizar este o crear uno específico
+  regValidate.checkUpdateData,
   utilities.handleErrors(accountController.updatePassword)
 )
 
