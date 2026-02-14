@@ -10,47 +10,41 @@
   </ul>
 <% } %>
 
-<div id="management-tools">
-  
-  <% if (locals.loggedin && locals.accountData) { %>
-    
-    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
-
-    <p>
-      <a href="/account/edit/<%= locals.accountData.account_id %>" title="Click to update your information">Update Account Information</a>
-    </p>
-
-    <% if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
-      <h3>Inventory Management</h3>
+<div class="management">
+  <div id="management-tools">
+    <% if (locals.loggedin && locals.accountData) { %>
+      <h2>Welcome <%= locals.accountData.account_firstname %></h2>
       <p>
-        <a href="/inv/" title="Manage inventory items">Access to Inventory Management</a>
+        <a href="/account/edit/<%= locals.accountData.account_id %>" title="Click to update your information">Update Account Information</a>
       </p>
+      <% if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
+        <h3>Inventory Management</h3>
+        <p>
+          <a href="/inv/" title="Manage inventory items">Access to Inventory Management</a>
+        </p>
+      <% } %>
+    <% } else { %>
+      <p>Please <a title="Click to log in" href="/account/login">log in</a> to see your account tools.</p>
     <% } %>
+  </div>
 
-  <% } else { %>
-    <p>Please <a title="Click to log in" href="/account/login">log in</a> to see your account tools.</p>
-  <% } %>
-  
-</div>
+  <div class="readonly-container">
+    <h3 class="readonly-title">Your Account Information</h3>
+    <form class="readonly-form">
+      <div class="readonly-group">
+        <label for="account_firstname">First Name</label>
+        <input type="text" id="account_firstname" name="account_firstname" readonly value="<%= locals.accountData.account_firstname %>">
+      </div>
+      <div class="readonly-group">
+        <label for="account_lastname">Last Name</label>
+        <input type="text" id="account_lastname" name="account_lastname" readonly value="<%= locals.accountData.account_lastname %>">
+      </div>
+      <div class="readonly-group">
+        <label for="account_email">Email Address</label>
+        <input type="email" id="account_email" name="account_email" readonly value="<%= locals.accountData.account_email %>">
+      </div>
+      <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+    </form>
+  </div>
 
-<div class="auth-card">
-  <h3 class="formTitle">Your Account Information</h3>
-  <form class="auth-form">
-    <div class="input-group">
-      <label for="account_firstname">First Name</label>
-      <input type="text" id="account_firstname" name="account_firstname" readonly value="<%= locals.accountData.account_firstname %>">
-    </div>
-
-    <div class="input-group">
-      <label for="account_lastname">Last Name</label>
-      <input type="text" id="account_lastname" name="account_lastname" readonly value="<%= locals.accountData.account_lastname %>">
-    </div>
-
-    <div class="input-group">
-      <label for="account_email">Email Address</label>
-      <input type="email" id="account_email" name="account_email" readonly value="<%= locals.accountData.account_email %>">
-    </div>
-
-    <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
-  </form>
 </div>

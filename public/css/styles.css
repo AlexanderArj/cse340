@@ -64,6 +64,12 @@ body {
     font-family: sans-serif;
 }
 
+.profile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--general-gap);
+}
+
 .auth-card {
     background-color: var(--color-1); 
     padding: 40px;
@@ -178,10 +184,17 @@ input:required:valid {
 /* Estilos para la vista de inventory management */
 
 .management {
-    background-color: var(--color-4);
     min-height: 75vh;
-    padding: var(--general-padding);
 }
+
+.management {
+    background-color: var(--color-4);
+    padding: var(--general-padding);
+    color: var(--color-1);
+    line-height: 2;
+}
+
+
 
 .management ul {
     list-style: none;
@@ -193,20 +206,150 @@ input:required:valid {
 }
 
 .management ul li a {
-    color: var(--color-1);
     text-decoration: none;
+}
+
+#management-tools p a {
+    text-decoration: underline;
+}
+
+.management ul li a, #management-tools p a {
+    color: var(--color-1);
     font-size: large;
 }
 
-.management ul li a:hover {
+.management ul li a:hover, #management-tools p a:hover {
     color: var(--color-2);
 }
+
+/* Estilos par la visual de la cuenta - Formulario */
+
+.readonly-container {
+    max-width: 500px;
+    margin: var(--general-margin) 0;
+    padding: var(--sec-padding);
+}
+
+.readonly-title {
+    color: var(--color-2);
+    font-size: 1.4rem;
+    margin-bottom: var(--general-gap);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+}
+
+.readonly-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--general-gap);
+}
+
+.readonly-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.readonly-group label {
+    color: var(--color-3); 
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.readonly-group input[readonly] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--color-1);
+    padding: 8px 0;
+    font-size: 1.1rem;
+    outline: none;
+    transition: var(--transition);
+    cursor: default;
+}
+
+/* ****************** */
+/* Styles for the inventory table */
+/* ****************** */
+
+#inventoryDisplay {
+    width: 100%;
+    border-spacing: 0;
+    margin: var(--general-margin) 0;
+    color: var(--text-color);
+    border-radius: var(--border-r-lg);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-collapse: separate;
+    background-color: var(--color-1);
+    overflow: hidden;
+}
+
+#inventoryDisplay thead {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+#inventoryDisplay th {
+    padding: var(--sec-padding) var(--general-padding);
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+#inventoryDisplay td {
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    padding: var(--sec-padding) var(--general-padding);
+}
+
+#inventoryDisplay tbody tr:nth-child(even) {
+    background-color: var(--color-3);
+}
+
+#inventoryDisplay tbody tr:hover {
+    background-color: rgba(224, 165, 56, 0.1);
+    transition: var(--transition);
+}
+
+#inventoryDisplay td a {
+    color: var(--text-color-2);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: var(--border-r-md);
+    transition: var(--transition);
+    display: inline-block;
+}
+
+#inventoryDisplay td a[title*="update"]:hover {
+    background-color: var(--color-2);
+    color: var(--color-4);
+}
+
+#inventoryDisplay td a[title*="delete"]:hover {
+    background-color: #d9534f;
+    color: white;
+}
+
+#inventoryDisplay tbody tr:last-child td {
+    border-bottom: none;
+}
+
 
 /* Adicional para formularios. Texto span */
 
 .input-group span {
     font-style: italic;
     font-size: small;
+}
+
+.input-group p {
+    font-size: small;
+    margin: 5px 0;
 }
 
 /* errors */
