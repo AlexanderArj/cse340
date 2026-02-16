@@ -34,6 +34,25 @@ CREATE TABLE IF NOT EXISTS public.account (
     account_type account_type NOT NULL DEFAULT 'Client'::account_type,
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
+
+CREATE TABLE IF NOT EXISTS public.inventory_reactions (
+    reaction_id SERIAL PRIMARY KEY,
+    inv_id INTEGER NOT NULL,
+    account_id INTEGER NOT NULL,
+    reaction_type INTEGER NOT NULL, -- 1: Love, 2: Like, 3: Dislike
+    reaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- uso de constraint
+
+    CONSTRAINT fk_inventory FOREIGN KEY (inv_id) 
+        REFERENCES public.inventory (inv_id) ON DELETE CASCADE,
+    CONSTRAINT fk_account FOREIGN KEY (account_id) 
+        REFERENCES public.account (account_id) ON DELETE CASCADE,
+        
+    -- un usuario, una reaccion por vehculo
+
+    CONSTRAINT unique_user_vehicle_reaction UNIQUE (inv_id, account_id)
+);
+
 -- Data for table `classification`
 INSERT INTO public.classification (classification_name)
 VALUES ('Custom'),

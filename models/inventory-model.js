@@ -128,6 +128,53 @@ async function deleteInventory(inv_id) {
   }
 }
 
+//  Get reaction counts for a vehicle
+
+async function getReactionCounts(inv_id) {
+  try {
+    const sql = `SELECT reaction_type, COUNT(*) as count FROM public.inventory_reactions 
+                 WHERE inv_id = $1 
+                 GROUP BY reaction_type`
+
+    const result = await pool.query(sql, [inv_id])
+    return result.rows
+  } catch (error) {
+    console.error("getReactionCounts error " + error)
+  }
+}
+
+// Getting specific user reaction
+
+async function getUserReaction(inv_id, account_id) {
+  try {
+    const sql = `SELECT reaction_type FROM public.inventory_reactions 
+                 WHERE inv_id = $1 AND account_id = $2`
+
+    const result = await pool.query(sql, [inv_id, account_id])
+
+    return result.rows.length > 0 ? result.rows[0].reaction_type : null
+
+  } catch (error) {
+    console.error("getUserReaction error " + error)
+  }
+}
+
+
+async function upsertReaction(inv_id, account_id, reaction_type) {
+  try {
+    const sql = `INSERT INTO public.inventory_reactions (inv_id, account_id, reaction_type)
+                 VALUES ($1, $2, $3)
+                 ON CONFLICT (inv_id, account_id) 
+                 DO UPDATE SET reaction_type = EXCLUDED.reaction_type
+                 RETURNING *`
+
+    return await pool.query(sql, [inv_id, account_id, reaction_type])
+    
+  } catch (error) {
+    console.error("upsertReaction error " + error)
+  }
+}
+
 
 module.exports = {
   getClassifications, 
@@ -136,6 +183,9 @@ module.exports = {
   insertClassification, 
   insertInventory, 
   updateInventory,
-  deleteInventory
+  deleteInventory,
+  getReactionCounts,
+  getUserReaction,
+  upsertReaction
 };
 

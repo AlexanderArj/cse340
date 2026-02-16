@@ -23,18 +23,55 @@ invCont.buildByClassificationId = async function (req, res, next) {
   }
 }
 
-// Build inventory by invID
+// // Build inventory by invID
+
+// invCont.buildDetail = async function (req, res, next) {
+//   try {
+//     const invId = req.params.invId
+
+//     const data = await invModel.getInventoryByInvId(invId)
+
+//     const detailContainer = await utilities.buildDetailContainer(data)
+
+//     let nav = await utilities.getNav()
+
+//     const className = data[0].classification_name
+
+//     res.render("./inventory/detail", {
+//       title: `${data[0].inv_make} ${data[0].inv_model}`,
+//       nav,
+//       detailContainer,
+//     })
+    
+//   } catch (error) {
+//     next(error)
+//   }
+// }
+
 
 invCont.buildDetail = async function (req, res, next) {
   try {
     const invId = req.params.invId
-
     const data = await invModel.getInventoryByInvId(invId)
+    
+    // Reactions-total
+    const reactionCounts = await invModel.getReactionCounts(invId)
+    
+    // User reactions, if logged in
+    let userReaction = null
+    if (res.locals.loggedin) {
+      const accountId = res.locals.accountData.account_id
+      userReaction = await invModel.getUserReaction(invId, accountId)
+    }
 
-    const detailContainer = await utilities.buildDetailContainer(data)
+    // Se pasan los datos de reacciones a la funcion de utilities
+    const detailContainer = await utilities.buildDetailContainer(
+      data, 
+      reactionCounts, 
+      userReaction
+    )
 
     let nav = await utilities.getNav()
-
     const className = data[0].classification_name
 
     res.render("./inventory/detail", {
@@ -47,6 +84,8 @@ invCont.buildDetail = async function (req, res, next) {
     next(error)
   }
 }
+
+
 
 invCont.getError = async function (req, res, next) {
 
@@ -326,5 +365,26 @@ invCont.deleteInventory = async function (req, res, next) {
     })
   }
 }
+
+invCont.handleReaction = async function (req, res) {
+  const { inv_id, reaction_type } = req.body
+  const account_id = res.locals.accountData.account_id 
+
+  try {
+    // keep or update reaction - SQL ON CONFLICT important!!
+
+    await invModel.upsertReaction(inv_id, account_id, reaction_type)
+
+    // Get updated counts
+    const updatedCounts = await invModel.getReactionCounts(inv_id)
+
+    res.json({ success: true, counts: updatedCounts })
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Something went wrong" })
+  }
+}
+
+
 
 module.exports = invCont

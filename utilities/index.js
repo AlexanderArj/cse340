@@ -62,31 +62,60 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-Util.buildDetailContainer = async function (data) {
 
+Util.buildDetailContainer = async function (data, reactionCounts = [], userReaction = null) {
   let detail = ""
 
   if (data.length > 0) {
     const vehicle = data[0]
+    
+    const counts = { 1: 0, 2: 0, 3: 0 }
+    reactionCounts.forEach(row => {
+      counts[row.reaction_type] = parseInt(row.count)
+    })
 
     detail = `
       <section class="vehicle-detail">
         <h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>
 
         <div class="vehicle-detail-content">
-          <img 
-            src="${vehicle.inv_image}" 
-            alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"
-          />
+          <div>
+            <img 
+              src="${vehicle.inv_image}" 
+              alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"
+            />
+            
+            <div class="feedback-icons" data-inv-id="${vehicle.inv_id}">
+              
+              <div class="feedback-container">
+                <button class="reaction-btn ${userReaction == 1 ? 'active' : ''}" data-type="1" title="I love it">
+                  <img src="/images/site/heart.svg" alt="Love icon"/>
+                </button>
+                <p id="count-1">${counts[1]}</p>
+              </div>
+
+              <div class="feedback-container">
+                <button class="reaction-btn ${userReaction == 2 ? 'active' : ''}" data-type="2" title="I like it">
+                  <img src="/images/site/like.svg" alt="Like icon"/>
+                </button>
+                <p id="count-2">${counts[2]}</p>
+              </div>
+
+              <div class="feedback-container">
+                <button class="reaction-btn ${userReaction == 3 ? 'active' : ''}" data-type="3" title="I dislike it">
+                  <img src="/images/site/dislike.svg" alt="Dislike icon"/>
+                </button>
+                <p id="count-3">${counts[3]}</p>
+              </div>
+
+            </div>
+          </div>
+
           <div class="vehicle-info">
             <h3>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h3>
-
             <p id="price"><strong>Price:</strong> $${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</p>
-
             <p id="mileage"><strong>Mileage:</strong> ${new Intl.NumberFormat("en-US").format(vehicle.inv_miles)} miles</p>
-
             <p id="color"><strong>Color:</strong> ${vehicle.inv_color}</p>
-
             <p id="description"><strong>Description:</strong><br>${vehicle.inv_description}</p>
           </div>
         </div>
@@ -98,7 +127,6 @@ Util.buildDetailContainer = async function (data) {
 
   return detail
 }
-
 
 Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications()

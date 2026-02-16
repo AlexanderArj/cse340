@@ -71,5 +71,8 @@ router.post(
   utilities.handleErrors(invController.deleteInventory)
 )
 
+
+router.post("/react", utilities.checkLogin, utilities.handleErrors(invController.handleReaction))
+
 module.exports = router;
 
