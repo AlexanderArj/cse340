@@ -62,8 +62,11 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-
-Util.buildDetailContainer = async function (data, reactionCounts = [], userReaction = null) {
+/* ******************************************
+ * Construye el contenedor de detalles del vehículo
+ * Solo muestra feedback-icons si el usuario está logueado
+ * ****************************************** */
+Util.buildDetailContainer = async function (data, reactionCounts = [], userReaction = null, isLoggedIn = false) {
   let detail = ""
 
   if (data.length > 0) {
@@ -85,30 +88,32 @@ Util.buildDetailContainer = async function (data, reactionCounts = [], userReact
               alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"
             />
             
+            ${isLoggedIn ? `
             <div class="feedback-icons" data-inv-id="${vehicle.inv_id}">
               
               <div class="feedback-container">
-                <button class="reaction-btn ${userReaction == 1 ? 'active' : ''}" data-type="1" title="I love it">
+                <button class="reaction-btn ${userReaction == 1 ? 'active' : ''}" data-type="1">
                   <img src="/images/site/heart.svg" alt="Love icon"/>
                 </button>
                 <p id="count-1">${counts[1]}</p>
               </div>
 
               <div class="feedback-container">
-                <button class="reaction-btn ${userReaction == 2 ? 'active' : ''}" data-type="2" title="I like it">
+                <button class="reaction-btn ${userReaction == 2 ? 'active' : ''}" data-type="2">
                   <img src="/images/site/like.svg" alt="Like icon"/>
                 </button>
                 <p id="count-2">${counts[2]}</p>
               </div>
 
               <div class="feedback-container">
-                <button class="reaction-btn ${userReaction == 3 ? 'active' : ''}" data-type="3" title="I dislike it">
+                <button class="reaction-btn ${userReaction == 3 ? 'active' : ''}" data-type="3">
                   <img src="/images/site/dislike.svg" alt="Dislike icon"/>
                 </button>
                 <p id="count-3">${counts[3]}</p>
               </div>
 
             </div>
+            ` : ''}
           </div>
 
           <div class="vehicle-info">

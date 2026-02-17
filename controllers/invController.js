@@ -48,34 +48,37 @@ invCont.buildByClassificationId = async function (req, res, next) {
 //   }
 // }
 
-
 invCont.buildDetail = async function (req, res, next) {
   try {
     const invId = req.params.invId
     const data = await invModel.getInventoryByInvId(invId)
-    
-    // Reactions-total
-    const reactionCounts = await invModel.getReactionCounts(invId)
-    
-    // User reactions, if logged in
-    let userReaction = null
-    if (res.locals.loggedin) {
-      const accountId = res.locals.accountData.account_id
-      userReaction = await invModel.getUserReaction(invId, accountId)
+
+    if (!data || data.length === 0) {
+      const err = new Error("Vehicle not found")
+      err.status = 404
+      return next(err)
     }
 
-    // Se pasan los datos de reacciones a la funcion de utilities
+    const vehicle = data[0]
+    
+    const reactionCounts = await invModel.getReactionCounts(invId)
+    
+    let userReaction = null
+    if (res.locals.loggedin) {
+      userReaction = await invModel.getUserReaction(invId, res.locals.accountData.account_id)
+    }
+
     const detailContainer = await utilities.buildDetailContainer(
       data, 
       reactionCounts, 
-      userReaction
+      userReaction,
+      res.locals.loggedin
     )
 
     let nav = await utilities.getNav()
-    const className = data[0].classification_name
 
     res.render("./inventory/detail", {
-      title: `${data[0].inv_make} ${data[0].inv_model}`,
+      title: `${vehicle.inv_make} ${vehicle.inv_model}`,
       nav,
       detailContainer,
     })
@@ -84,7 +87,6 @@ invCont.buildDetail = async function (req, res, next) {
     next(error)
   }
 }
-
 
 
 invCont.getError = async function (req, res, next) {

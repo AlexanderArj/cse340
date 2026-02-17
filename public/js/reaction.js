@@ -2,48 +2,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.querySelector(".feedback-icons");
   if (!container) return;
 
-  const invId = container.dataset.invId; 
+  // simplificacion
 
   container.addEventListener("click", async (e) => {
     const btn = e.target.closest(".reaction-btn");
     if (!btn) return;
 
-    const reactionType = btn.dataset.type;
+    // Enviar reaccion al server
 
-    console.log("Enviando:", { invId, reactionType });
+    const response = await fetch("/inv/react", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        inv_id: container.dataset.invId,
+        reaction_type: btn.dataset.type
+      })
+    });
 
-    try {
-      const response = await fetch("/inv/react", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          inv_id: invId,
-          reaction_type: reactionType
-        })
+    const result = await response.json();
+    
+    if (result.success) {
+
+      document.getElementById("count-1").innerText = "0";
+
+      document.getElementById("count-2").innerText = "0";
+
+      document.getElementById("count-3").innerText = "0";
+
+      result.counts.forEach(row => {
+        document.getElementById(`count-${row.reaction_type}`).innerText = row.count;
       });
 
-      const result = await response.json();
+      // css cambios
 
-      if (result.success) {
-        updateReactionUI(result.counts);
-        
-        document.querySelectorAll(".reaction-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-      }
-    } catch (err) {
-      console.error("Error en la petición:", err);
+      document.querySelectorAll(".reaction-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     }
   });
 });
-
-function updateReactionUI(countsArray) {
-  [1, 2, 3].forEach(id => {
-    const el = document.getElementById(`count-${id}`);
-    if (el) el.innerText = "0";
-  });
-
-  countsArray.forEach(row => {
-    const p = document.getElementById(`count-${row.reaction_type}`);
-    if (p) p.innerText = row.count;
-  });
-}
