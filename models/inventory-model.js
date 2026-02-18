@@ -175,6 +175,37 @@ async function upsertReaction(inv_id, account_id, reaction_type) {
   }
 }
 
+/* ***************************
+ * Insert data- damage report
+ * ************************** */
+
+async function insertDamageReport(inv_id, damage_type, damage_severity, damage_description, account_id) {
+  try {
+    const sql = `INSERT INTO damage_reports (inv_id, damage_type, damage_severity, damage_description, account_id) 
+                 VALUES ($1, $2, $3, $4, $5) RETURNING *`
+    return await pool.query(sql, [inv_id, damage_type, damage_severity, damage_description, account_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* ***************************
+ * Get all damage report
+ * ************************** */
+
+async function getDamageReports() {
+  try {
+    const sql = `SELECT dr.*, inv.inv_make, inv.inv_model 
+                 FROM damage_reports AS dr 
+                 JOIN inventory AS inv ON dr.inv_id = inv.inv_id 
+                 ORDER BY dr.report_date DESC`
+    const data = await pool.query(sql)
+    return data.rows
+  } catch (error) {
+    return error.message
+  }
+}
+
 
 module.exports = {
   getClassifications, 
@@ -186,6 +217,8 @@ module.exports = {
   deleteInventory,
   getReactionCounts,
   getUserReaction,
-  upsertReaction
+  upsertReaction,
+  insertDamageReport,
+  getDamageReports
 };
 

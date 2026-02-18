@@ -1,0 +1,63 @@
+<h1><%= title %></h1>
+
+<% if (messages) { %>
+  <div class="message-container"><%= messages() %></div>
+<% } %>
+
+<div class="management">
+    <% if (locals.loggedin && locals.accountData && (accountData.account_type === 'Admin' || accountData.account_type === 'Employee')) { %>
+        
+        <table id="damageDisplay">
+            <thead>
+
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Type</th>
+                    <th>Severity</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <% if (reports && reports.length > 0) { %>
+
+                    <% reports.forEach(report => { %>
+
+                    <tr class="severity-<%= report.damage_severity %>">
+                        <td><strong><%= report.inv_make %> <%= report.inv_model %></strong></td>
+                        <td><%= report.damage_type %></td>
+                        <td class="status-cell"><%= report.damage_severity.toUpperCase() %></td>
+                        <td><%= report.damage_description %></td>
+                        <td><%= new Date(report.report_date).toLocaleDateString() %></td>
+                    </tr>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <tr>
+                        <td colspan="5">No damage reports found.</td>
+                    </tr>
+
+                <% } %>
+            </tbody>
+        </table>
+
+    <% } else { %>
+
+        <section class="denied-access-container">
+
+            <div class="denied-card">
+
+                <div class="denied-icon">⚠️</div>
+                <h2>Access Denied</h2>
+                <p>Oops! Are you one of our employees? <br> Please use an authorized account to view this section.</p>
+                <a href="/account/login" class="auth-link">Log In</a>
+
+            </div>
+
+        </section>
+
+    <% } %>
+</div>

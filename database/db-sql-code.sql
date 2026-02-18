@@ -53,6 +53,18 @@ CREATE TABLE IF NOT EXISTS public.inventory_reactions (
     CONSTRAINT unique_user_vehicle_reaction UNIQUE (inv_id, account_id)
 );
 
+
+CREATE TABLE IF NOT EXISTS public.damage_reports (
+    damage_id SERIAL PRIMARY KEY,
+    inv_id INT NOT NULL,
+    damage_type VARCHAR NOT NULL,
+    damage_severity VARCHAR NOT NULL,
+    damage_description TEXT NOT NULL,
+    account_id INT,
+    report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_inventory FOREIGN KEY (inv_id) REFERENCES public.inventory (inv_id) ON DELETE CASCADE
+);
+
 -- Data for table `classification`
 INSERT INTO public.classification (classification_name)
 VALUES ('Custom'),

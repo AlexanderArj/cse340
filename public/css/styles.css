@@ -340,6 +340,140 @@ input:required:valid {
 }
 
 
+/* ****************** */
+/* Estilos para el formulario de daños */
+/* ****************** */
+
+.management {
+    padding: var(--general-padding);
+}
+
+#damageDisplay {
+
+    background-color: var(--color-1);
+    width: 100%;
+    border-spacing: 0;
+    color: var(--text-color);
+    border-collapse: separate;
+    overflow: hidden;
+    font-size: 0.95rem;
+    margin: var(--general-margin) 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-r-lg);
+}
+
+#damageDisplay thead {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+#damageDisplay th {
+    padding: 15px var(--general-padding);
+    text-align: left;
+    font-weight: bold;
+
+    font-size: 0.85rem;
+
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--color-2);
+    text-transform: uppercase;
+
+}
+
+#damageDisplay td {
+    border-bottom: 1px solid var(--border-color);
+
+    padding: var(--sec-padding) var(--general-padding);
+    transition: var(--transition);
+    vertical-align: middle;
+}
+
+#damageDisplay tbody tr:nth-child(even) {
+    background-color: var(--color-3);
+}
+
+#damageDisplay tbody tr:hover {
+    background-color: rgba(224, 165, 56, 0.05);
+}
+
+.status-cell {
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+#damageDisplay td[colspan="5"] {
+    text-align: center;
+    padding: 40px;
+    color: var(--border-color);
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .management {
+        overflow-x: auto;
+    }
+    #damageDisplay {
+        min-width: 600px;
+    }
+}
+
+.denied-access-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 450px;
+    border-radius: var(--border-r-lg);
+    margin-top: var(--general-margin);
+    background: url('/images/site/crash.webp');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--border-color);
+}
+
+.denied-card {
+    background: var(--color-1);
+    padding: 40px;
+    border-radius: var(--border-r-md);
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    max-width: 350px;
+}
+
+.denied-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.denied-card h2 {
+    color: #d9534f;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.denied-card p {
+    color: var(--text-color);
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.auth-link {
+    display: inline-block;
+    background-color: var(--color-4);
+    color: var(--color-1);
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: var(--border-r-md);
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.auth-link:hover {
+    background-color: var(--color-2);
+    color: var(--color-4);
+    transform: translateY(-2px);
+}
+
 /* Adicional para formularios. Texto span */
 
 .input-group span {

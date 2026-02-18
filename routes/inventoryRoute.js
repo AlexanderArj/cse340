@@ -74,5 +74,20 @@ router.post(
 
 router.post("/react", utilities.checkLogin, utilities.handleErrors(invController.handleReaction))
 
+// Route to damage report view
+router.get("/report", utilities.handleErrors(invController.buildReport));
+
+router.post(
+  "/report",
+  regValidate.damageReportRules(),
+  regValidate.checkDamageData,
+  utilities.handleErrors(invController.processReport)
+)
+
+router.get("/report/list", utilities.handleErrors(invController.viewDamageReports));
+
+
+
+
 module.exports = router;
 

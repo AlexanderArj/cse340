@@ -17,11 +17,21 @@
       <p>
         <a href="/account/edit/<%= locals.accountData.account_id %>" title="Click to update your information">Update Account Information</a>
       </p>
+
+      <p>
+        <a href="/inv/report/" title="Click to report vehicle damage">Submit a Damage Report</a>
+      </p>
+
       <% if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
         <h3>Inventory Management</h3>
         <p>
           <a href="/inv/" title="Manage inventory items">Access to Inventory Management</a>
         </p>
+        
+        <p>
+          <a href="/inv/report/list" title="See Damage Report List">Access to the Damage Reports List</a>
+        </p>
+
       <% } %>
     <% } else { %>
       <p>Please <a title="Click to log in" href="/account/login">log in</a> to see your account tools.</p>

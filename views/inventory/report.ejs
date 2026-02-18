@@ -1,0 +1,74 @@
+<h1><%= title %></h1>
+
+<% if (errors) { %>
+    <ul class="error-list">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+
+<div class="auth-container damage-report-section">
+    <div class="auth-card">
+        <h2 class="formTitle">Vehicle Damage Report</h2>
+        <p class="form-instruction">Please identify the vehicle and describe the issue.</p>
+
+        <form class="auth-form" id="damageReportForm" action="/inv/report" method="post">
+            
+            <div class="input-group">
+                <label for="classificationList">1. Vehicle Classification</label>
+                <%- classificationSelect %>
+            </div>
+
+            <div class="input-group">
+                <label for="inv_id">2. Select Vehicle to Report</label>
+                <select name="inv_id" id="inventoryList" required disabled>
+                    <option value="">-- Select classification first --</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="damage_type">Type of Damage / Issue</label>
+                <select name="damage_type" id="damage_type" required>
+                    <option value="" selected disabled>Select issue type...</option>
+                    <option value="mechanical">Mechanical Failure</option>
+                    <option value="bodywork">Bodywork / Paint (Scratches, Dents)</option>
+                    <option value="interior">Interior (Upholstery, Dashboard)</option>
+                    <option value="electrical">Electrical / Lights</option>
+                    <option value="tires">Tires / Wheels</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="damage_severity">Severity Level</label>
+
+                <select name="damage_severity" id="damage_severity" required>
+
+                    <option value="low">Low</option>
+
+                    <option value="medium">Medium</option>
+
+                    <option value="high">High</option>
+
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="damage_description">Detailed Description of Damage</label>
+                <textarea name="damage_description" id="damage_description" 
+                          required 
+                          placeholder="Describe exactly what happened and where the damage is located..." 
+                          rows="4"></textarea>
+            </div>
+
+            <input type="hidden" name="account_id" value="<%= locals.accountData ? locals.accountData.account_id : '' %>">
+
+            <button type="submit" class="auth-btn">Submit Damage Report</button>
+        </form>
+    </div>
+    
+    <script src="../../js/damage-report.js"></script>
+
+</div>

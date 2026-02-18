@@ -388,5 +388,81 @@ invCont.handleReaction = async function (req, res) {
 }
 
 
+// Responsible for delivering the vehicle report view.
+
+invCont.buildReport = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const messages = req.flash('notice')
+
+  const classificationSelect = await utilities.buildClassificationList()
+  
+  res.render("./inventory/report", {
+    title: "Vehicle Report",
+    nav,
+    classificationSelect,
+    errors: null
+  })
+}
+
+/* ****************************************
+* Process Damage Report
+* *************************************** */
+
+invCont.processReport = async function (req, res) {
+  let nav = await utilities.getNav()
+  const {
+    inv_id,
+    damage_type,
+    damage_severity,
+    damage_description,
+    account_id
+  } = req.body
+
+  const reportResult = await invModel.insertDamageReport(
+    inv_id,
+    damage_type,
+    damage_severity,
+    damage_description,
+    account_id
+  )
+
+  if (reportResult) {
+    req.flash(
+      "notice",
+      `The damage report was successfully submitted.`
+    )
+    res.status(201).redirect("/")
+    
+  } else {
+    req.flash("notice", "Sorry, the report failed.")
+
+    res.status(501).render("inventory/report", {
+        title: "Vehicle Report",
+        nav,
+        classificationSelect,
+        errors: null,
+        inv_id,
+        damage_type,
+        damage_severity,
+        damage_description,
+    })
+  }
+}
+
+/* ****************************************
+* Deliver Damage Reports View
+* *************************************** */
+
+invCont.viewDamageReports = async function (req, res) {
+  let nav = await utilities.getNav()
+  const reports = await invModel.getDamageReports()
+  
+  res.render("inventory/report-list", {
+    title: "All Damage Reports",
+    nav,
+    reports,
+    errors: null,
+  })
+}
 
 module.exports = invCont
